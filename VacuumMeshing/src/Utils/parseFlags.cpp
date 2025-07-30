@@ -1,4 +1,7 @@
 #include "Utils/parseFlags.hpp"
+#include <sstream>
+#include <iomanip>
+#include <limits>
 
 typedef std::function<void(inputFlags &)> NoArgHandle;
 typedef std::function<void(inputFlags &, const std::string &)> OneArgHandle;
@@ -147,11 +150,17 @@ void inputFlags::setSwitches() {
   }
 
   if (maxTetVol.has_value()) {
-    tetSettings += "a" + std::to_string(maxTetVol.value());
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(std::numeric_limits<double>::digits10 + 1) << maxTetVol.value();
+    std::string mystring = ss.str();
+    tetSettings += "a" + ss.str();
   }
 
   if (maxTriArea.has_value()) {
-    triSettings += "a" + std::to_string(maxTriArea.value());
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(std::numeric_limits<double>::digits10 + 1) << maxTriArea.value();
+    std::string mystring = ss.str();
+    tetSettings += "a" + ss.str();
   }
 }
 

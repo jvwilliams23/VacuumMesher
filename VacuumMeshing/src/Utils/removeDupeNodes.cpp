@@ -131,7 +131,17 @@ void combineMeshes(const double &tol, libMesh::Mesh &mesh_one,
     // Set boundary name!
   }
 
+  // provisionally take part_bdr_id as n_boundary_ids + 1
   int part_bdr_id = mesh_one.get_boundary_info().n_boundary_ids() + 1;
+  // check to see this ID is not already taken, if so we increment it by 
+  // one to avoid overwriting.
+  const auto & boundary_ids = mesh_one.boundary_info->get_boundary_ids();
+  for (auto id : boundary_ids){
+    if (part_bdr_id == id){
+      part_bdr_id ++;
+    }
+  }
+
   for (auto boundSide = surface_face_map.begin();
        boundSide != surface_face_map.end(); boundSide++) {
     // std::cout << boundSide->first << std::endl;
