@@ -160,7 +160,7 @@ void inputFlags::setSwitches() {
     std::stringstream ss;
     ss << std::fixed << std::setprecision(std::numeric_limits<double>::digits10 + 1) << maxTriArea.value();
     std::string mystring = ss.str();
-    tetSettings += "a" + ss.str();
+    triSettings += "a" + ss.str();
   }
 }
 
