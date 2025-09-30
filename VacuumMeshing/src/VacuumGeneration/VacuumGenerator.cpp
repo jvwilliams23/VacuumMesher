@@ -33,6 +33,29 @@ void VacuumGenerator::generateVacuumMesh(const std::string tet_settings) {
   combineMeshes(mesh_merge_tolerance_, temp, vacuum_mesh_, *surface_face_map_);
   vacuum_mesh_.clear();
   vacuum_mesh_ = libMesh::Mesh(temp);
+
+  // Assign boundary tags to all sides which do not belong to a pre-assigned boundary
+  // (as the "part_boundary" contains all solid-vacuum interfaces, the remaining boundaries
+  // all correspond to magnetic insulation)
+  for (const auto &elem : vacuum_mesh_.active_element_ptr_range())
+  {
+      for (unsigned int s = 0; s < elem->n_sides(); ++s)
+      {
+        if (!elem->neighbor_ptr(s)) // boundary face
+        {
+          std::vector<libMesh::boundary_id_type> boundary_ids;
+          vacuum_mesh_.boundary_info->boundary_ids(elem, s, boundary_ids);
+          // apply only to sides with no pre-existing boundary condition
+          if (boundary_ids.size() == 0)
+          {
+            vacuum_mesh_.get_boundary_info().add_side(elem, s, 10);
+            std::vector<libMesh::boundary_id_type> boundary_ids_new;
+            vacuum_mesh_.boundary_info->boundary_ids(elem, s, boundary_ids_new);
+            vacuum_mesh_.boundary_info->sideset_name(boundary_ids_new[0]) = "magnetic_insulation";
+          }
+        }
+      }
+  }
 }
 
 // Takes in seed_points arguments for meshes with internal cavities
