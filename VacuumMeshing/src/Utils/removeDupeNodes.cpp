@@ -149,7 +149,7 @@ void combineMeshes(const double &tol, libMesh::Mesh &mesh_one,
                                           part_bdr_id);
   }
 
-  mesh_one.boundary_info->set_sideset_name_map()[part_bdr_id] = "part_boundary";
+  //mesh_one.boundary_info->set_sideset_name_map()[part_bdr_id] = "part_boundary";
   mesh_one.subdomain_name(vac_id) = "vacuum_region";
 
   // Prepare the mesh for use. This libmesh method does some id renumbering etc,
