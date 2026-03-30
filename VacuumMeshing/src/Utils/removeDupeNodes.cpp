@@ -131,7 +131,7 @@ void combineMeshes(const double &tol, libMesh::Mesh &mesh_one,
     // Set boundary name!
   }
 
-  // provisionally take part_bdr_id as n_boundary_ids + 1
+/*  // provisionally take part_bdr_id as n_boundary_ids + 1
   int part_bdr_id = mesh_one.get_boundary_info().n_boundary_ids() + 1;
   // check to see this ID is not already taken, if so we increment it by 
   // one to avoid overwriting.
@@ -147,9 +147,9 @@ void combineMeshes(const double &tol, libMesh::Mesh &mesh_one,
     // std::cout << boundSide->first << std::endl;
     mesh_one.get_boundary_info().add_side(boundSide->first, boundSide->second,
                                           part_bdr_id);
-  }
+  }*/
 
-  mesh_one.boundary_info->set_sideset_name_map()[part_bdr_id] = "part_boundary";
+  //mesh_one.boundary_info->set_sideset_name_map()[part_bdr_id] = "part_boundary";
   mesh_one.subdomain_name(vac_id) = "vacuum_region";
 
   // Prepare the mesh for use. This libmesh method does some id renumbering etc,
